@@ -62,7 +62,7 @@ describe('AnaliseDeDados', () => {
   });
 
   // Teste para o método removerOutliers
-test('removerOutliers deve remover valores fora do IQR', () => {
+  test('removerOutliers deve remover valores fora do IQR', () => {
     // Cenário com outliers
     analise.adicionarDados([100, 5]);
     analise.removerOutliers();
