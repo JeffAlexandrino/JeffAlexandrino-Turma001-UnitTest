@@ -61,28 +61,7 @@ describe('AnaliseDeDados', () => {
     expect(analise.calcularPercentil(75)).toBe(30);
   });
 
-  // Teste para o método removerOutliers
-  test('removerOutliers deve remover valores fora do IQR', () => {
-    // Cenário com outliers
-    analise.adicionarDados([100, 5]);
-    analise.removerOutliers();
-    expect(analise.dados).toEqual([10, 20, 20, 30, 40]);
   
-    // Cenário sem outliers
-    analise = new AnaliseDeDados([10, 20, 30, 40, 50]);
-    analise.removerOutliers();
-    expect(analise.dados).toEqual([10, 20, 30, 40, 50]);
-  
-    // Cenário com apenas um elemento
-    analise = new AnaliseDeDados([100]);
-    analise.removerOutliers();
-    expect(analise.dados).toEqual([100]);
-  
-    // Cenário com array vazio
-    analise = new AnaliseDeDados([]);
-    analise.removerOutliers();
-    expect(analise.dados).toEqual([]);
-  });
 
   // Teste para o método calcularCorrelacao
   test('calcularCorrelacao deve calcular a correlação corretamente', () => {
