@@ -1,6 +1,6 @@
 class AnaliseDeDados {
   constructor(dados = []) {
-    this.dados = dados;
+    this.dados = dados; // Array numérico para análise estatística
   }
 
   adicionarDados(novosDados) {
@@ -11,7 +11,7 @@ class AnaliseDeDados {
   limparDados() {
     this.dados = [];
   }
-  
+
   ordenarDados() {
     return [...this.dados].sort((a, b) => a - b);
   }
@@ -55,21 +55,28 @@ class AnaliseDeDados {
   calcularCoeficienteDeVariacao() {
     const media = this.calcularMedia();
     const desvio = this.calcularDesvioPadrao();
-    return media !== 0 ? (desvio / media) * 100 : null;
+    if (media === null || desvio === null || media === 0) {
+      return null; // Retorna null se a média ou o desvio padrão forem inválidos
+    }
+    return (desvio / media) * 100;
   }
 
   removerOutliers(fator = 1.5) {
+    if (this.dados.length === 0) return; // Não faz nada se o array estiver vazio
+
     const q1 = this.calcularPercentil(25);
     const q3 = this.calcularPercentil(75);
     const iqr = q3 - q1;
+
     const limiteInferior = q1 - fator * iqr;
     const limiteSuperior = q3 + fator * iqr;
+
     this.dados = this.dados.filter(num => num >= limiteInferior && num <= limiteSuperior);
   }
 
   calcularCorrelacao(outroConjunto) {
     if (!Array.isArray(outroConjunto) || this.dados.length !== outroConjunto.length) return null;
-    
+
     const mediaX = this.calcularMedia();
     const mediaY = outroConjunto.reduce((sum, num) => sum + num, 0) / outroConjunto.length;
 
@@ -86,10 +93,11 @@ class AnaliseDeDados {
     const pos = (percentil / 100) * (ordenado.length - 1);
     const base = Math.floor(pos);
     const resto = pos - base;
+
     if (ordenado[base + 1] !== undefined) {
-        return ordenado[base] + resto * (ordenado[base + 1] - ordenado[base]);
+      return ordenado[base] + resto * (ordenado[base + 1] - ordenado[base]);
     } else {
-        return ordenado[base];
+      return ordenado[base];
     }
   }
 }
